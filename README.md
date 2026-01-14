@@ -1,6 +1,10 @@
 # Adverse Weather & Low-Light Vision Datasets
 
-A curated, unified index of public **fog, haze, smoke, rain, snow, and low-light** image datasets for computer vision research. This repository is intended as a single, consistent reference for discovering and programmatically accessing datasets used in image restoration, enhancement, and robust perception under adverse conditions.
+[![Python 3.7+](https://img.shields.io/badge/python-3.7+-blue.svg)](https://www.python.org/downloads/)
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-green.svg)](LICENSE)
+[![Datasets](https://img.shields.io/badge/datasets-55-orange.svg)](#dataset-taxonomy)
+
+A curated, unified index of public datasets for **fog, haze, rain, snow, low-light, underwater, and sandstorm** image restoration and perception research. This repository is intended as a single, consistent reference for discovering and programmatically accessing datasets used in image restoration, enhancement, and robust perception under adverse conditions.
 
 ---
 
@@ -13,7 +17,7 @@ datasets.csv
 with the schema:
 
 INDEX, NAME, CATEGORY, SIZE, DESCRIPTION, MAIN_LINK
-![Dataset Image](image.png)
+![Dataset Image](./assets/image.png)
 
 All datasets are mapped to this schema so downstream code can operate without dataset-specific assumptions or ad-hoc parsing.
 
@@ -21,8 +25,8 @@ All datasets are mapped to this schema so downstream code can operate without da
 
 ## Repository Contents
 
-- datasets.csv — master dataset registry with IDs, categories, descriptions, sizes, and official links  
-- loaders/registry.py — lightweight Python registry for querying dataset metadata  
+- datasets.csv — master dataset registry with IDs, categories, descriptions, sizes, and official links
+- loaders/registry.py — lightweight Python registry for querying dataset metadata
 - README.md — documentation (this file)
 
 The structure is intentionally minimal and designed to scale.
@@ -33,18 +37,19 @@ The structure is intentionally minimal and designed to scale.
 
 Each dataset is tagged with a CATEGORY to enable fast filtering.
 
-| CATEGORY              | DATASETS |
-|-----------------------|----------|
-| Haze / Fog      | Foggy Cityscapes, O-HAZY, NH-HAZE, RESIDE-Standard, RESIDE-Beta, HazeSpace2M, Haze1K, RS-Haze, Foggy Zurich, SynthRSF, NTIRE Nighttime Dehazing |
-| Snow            | Snow100K, SnowCityScapes, SnowKITTI2012, SRRS, CSD, SITD, NTIRE Desnowing |
-| Rain            | Rain100L, Rain1400, Rain Cityscapes, HQ-NightRain, LWDDS, WeatherBench |
-| Smoke           | SmokeBench (surveillance), LSD3K (medical / endoscopic) |
-| Low-Light       | LOL (v1, v2), SID (Sony, Fuji, Full), ExDark, LLVIP, LoLI-Street, SICE, LIME, DPED, LoL-SRW |
-| MultiWeather   | allweather-TRANSWEATHER, WeatherBench, MCASD |
+| CATEGORY          | DATASETS                                                                                                                                        |
+| :---------------- | :---------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Haze / Fog**    | Foggy Cityscapes, O-HAZY, NH-HAZE, RESIDE-Standard, RESIDE-Beta, HazeSpace2M, Haze1K, RS-Haze, Foggy Zurich, SynthRSF, NTIRE Nighttime Dehazing |
+| **Snow**          | Snow100K, SnowCityScapes, SnowKITTI2012, SRRS, CSD, SITD, NTIRE Desnowing                                                                       |
+| **Rain**          | Rain100L, Rain1400, Rain Cityscapes, HQ-NightRain, LWDDS, WeatherBench, **Raindrop Clarity (2025)**, **URIR-8K (2024)**                         |
+| **Low-Light**     | LOL (v1, v2), SID (Sony, Fuji, Full), ExDark, LLVIP, LoLI-Street, SICE, LIME, DPED, LoL-SRW, **HDRT (2024)**                                    |
+| **Underwater**    | **UIEB, EUVP, MOUD (2025 release), LSUI**                                                                                                       |
+| **Sand / Dust**   | **Sand11K (2025 release), SIRB**                                                                                                                |
+| **Smoke**         | SmokeBench (surveillance), LSD3K (medical / endoscopic)                                                                                         |
+| **Multi-Weather** | allweather-TRANSWEATHER, WeatherBench, MCASD                                                                                                    |
+| **Super-Res**     | NKUSR8K                                                                                                                                         |
 
 All entries are normalized into the same CSV format for consistent downstream usage.
-
-
 
 ## Using the Dataset Registry
 
@@ -53,17 +58,24 @@ Example Python usage:
 ```python
 from loaders.registry import DatasetRegistry
 
+# Initialize the registry
 reg = DatasetRegistry("datasets.csv")
 
-meta = reg.get(1)
-print(meta["NAME"])
-print(meta["CATEGORY"])
-print(meta["SIZE"])
-print(reg.link(1))
+# 1. Search for datasets by keyword (e.g., "underwater", "2025", "low light")
+results = reg.search("underwater")
+print(f"Found {len(results)} datasets matching your query.")
 
+# 2. Retrieve metadata by Index
+meta = reg.get(46)
+print(f"Name: {meta['NAME']}")
+print(f"Category: {meta['CATEGORY']}")
+print(f"Direct Link: {reg.link(46)}")
+
+# 3. Retrieve metadata by Name (Case-insensitive)
 snow = reg.get_by_name("Snow100K")
-print(snow["INDEX"], snow["MAIN_LINK"])
+print(f"Index: {snow['INDEX']} | URL: {snow['MAIN_LINK']}")
 
+# 4. Print all datasets in a clean, human-readable format
 for row in reg.list_all():
     print(reg.pretty(row["INDEX"]))
 
@@ -108,6 +120,8 @@ If referencing this collection as a whole, you may cite it as:
 This repository was developed as part of the Sarvadrushti research initiative.
 
 ## Core contributors:
+
+Siddharth Verma — dataset curation, vision research
 
 V S Chandradithya Janaswami — dataset curation, vision research
 
