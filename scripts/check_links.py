@@ -76,3 +76,17 @@ if failure_ratio >= FAIL_THRESHOLD:
 else:
     print("\n SUCCESS: Check completed successfully.")
     sys.exit(0)
+
+import json
+from pathlib import Path
+
+summary = {
+    "total": total,
+    "working": total - failed_count,
+    "broken": failed_count,
+    "failure_ratio": round(failure_ratio, 2)
+}
+
+Path("link_status.json").write_text(json.dumps(summary, indent=2))
+print("\nlink_status.json written")
+
