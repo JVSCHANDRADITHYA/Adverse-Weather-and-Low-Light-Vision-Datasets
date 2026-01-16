@@ -39,10 +39,11 @@ jobs:
           python scripts/check_links.py
 
       - name: Commit link status badge data
-        if: always()
+        if: github.repository_owner == 'JVSCHANDRADITHYA'
         run: |
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
-          git add link_status.json
+          git add link_status.json Readme.md
           git commit -m "Update dataset link status" || echo "No changes"
           git push
+
