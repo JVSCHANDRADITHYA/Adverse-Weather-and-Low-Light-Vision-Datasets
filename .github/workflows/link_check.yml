@@ -10,7 +10,7 @@ on:
     - cron: "30 0 * * *"
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   link-check:
