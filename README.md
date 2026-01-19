@@ -123,5 +123,6 @@ If referencing this collection as a whole, you may cite it as:
 This repository was developed as part of the Sarvadrushti research initiative.
 
 ## Core contributors:
+Chandradithya Janaswami and Siddharth Verma
 
 Sarvadrushti Research Team — experimentation, evaluation, and review and dataset curation.
