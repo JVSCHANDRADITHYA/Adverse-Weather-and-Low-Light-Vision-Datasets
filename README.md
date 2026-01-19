@@ -124,4 +124,4 @@ This repository was developed as part of the Sarvadrushti research initiative.
 
 ## Core contributors:
 
-Sarvadrushti Research Team — experimentation, evaluation, and review
+Sarvadrushti Research Team — experimentation, evaluation, and review and dataset curation.
